@@ -121,16 +121,16 @@
       shell: 'mysql -ne "{{ item }}"'
       with_items:
         - GRANT ALL PRIVILEGES ON ozirichigozie.* TO 'ozirigozie'@'localhost';
-    - name: flush priviliges
-      shell: 'mysql -ne "{{ item }}"'
-      with_items:
-        - FLUSH PRIVILEGES;
-    - name: copy pgsql installation bash script to root
-      copy:
-        src: /home/ubuntu/pgsql.sh
-        dest: /root
-    - name: install postgresql
-      shell: bash /root/pgsql.sh
+          #    - name: flush priviliges
+      #      shell: 'mysql -ne "{{ item }}"'
+      #      with_items:
+        #        - FLUSH PRIVILEGES;
+          #    - name: copy pgsql installation bash script to root
+      #      copy:
+        #        src: /home/ubuntu/pgsql.sh
+        #        dest: /root
+        #    - name: install postgresql
+        #      shell: bash /root/pgsql.sh
     
     - name: cloning project repo
       git: 
