@@ -1,0 +1,26 @@
+---
+- hosts: clients
+  become: true
+  become_method: sudo
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: update python package
+      shell: apt update && apt upgrade -y
+
+    - name: install letsencrypt package
+      apt:
+        name: "{{ certbot_package }}"
+        update_cache: yes
+        state: latest
+  
+    - name: create and install cert using {{ certbot_plugin }} plugin
+      command: "certbot --{{ certbot_plugin }} -d {{ certbot_site_names[inventory_hostname_short] }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --redirect"
+  
+    - name: set letsencrypt cronjob for certificate auto renewal
+      cron:
+        name: letsencrypt_renewal
+        special_time: monthly
+        job: "/usr/bin/certbot renew"
+      when: ansible_facts['os_family'] == "Debian"

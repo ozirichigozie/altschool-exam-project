@@ -1,0 +1,2 @@
+[clients]
+client ansible_host=34.228.41.69 ansible_user=ubuntu
